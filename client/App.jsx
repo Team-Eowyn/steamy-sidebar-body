@@ -18,23 +18,31 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios
-      .get("/mainbody", {
-        params: {
-          _id: proxyId,
-        },
-      })
-      .then((res) => {
-        // console.log("before setState: ", this.state);
-        this.setState({
-          game: res.data[0],
+    if (!proxyId) {
+      axios.get('/mainbody')
+        .then(response => {
+          console.log('serving up static file');
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+
         });
-        this.setState({ loading: false });
-        // console.log('after setState: ', this.state);
-      })
-      .catch(() => {
-        this.setState({ loading: false });
-      });
+    } else {
+      axios.get(`/mainbody/${proxyId}`)
+        .then((res) => {
+          // console.log("before setState: ", this.state);
+          this.setState({
+            game: res.data[0],
+          });
+          this.setState({ loading: false });
+          // console.log('after setState: ', this.state);
+        })
+        .catch(() => {
+          this.setState({ loading: false });
+        });
+    }
   }
 
   render() {

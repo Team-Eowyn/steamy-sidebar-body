@@ -9,17 +9,18 @@
 CRUD API info:
 
 POST:
-n/a
+- '/mainbody' : adds a new game to the database based on data in the request body; need to include at least a name property(string) and proxyId (number)
 
 GET:
-- '/mainbody': does not get response from server
-- '/mainbody/?_id=x': reponds with single data object (array of objects) and static files to render module for item with proxyId value 'x'
+- '/mainbody': loads static page that says "Main body loading... Side bar content loading..."
+- '/mainbody/:proxyId': reponds with single data object (array of objects) and static files to render module based on query data
+-
 
 PUT:
-n/a
+-'/mainbody/:proxyId': updates the name of game based on query data and name given in request body
 
 DELETE:
-n/a
+-'/mainbody/:proxyId': deletes game based on query data
 
 
 
