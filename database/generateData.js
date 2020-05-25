@@ -1,5 +1,4 @@
 const fs = require('fs');
-const csvWriter = require('csv-write-stream');
 const faker = require('faker');
 
 const mContent = [
@@ -103,22 +102,22 @@ const allTags = [
 ];
 
 const xTags = [];
-for (let p = 0; p < Math.floor(Math.random() * 10); p += 1) {
+for (let p = 0; p < Math.floor(Math.random() * 8); p += 1) {
   xTags.push(allTags[Math.floor(Math.random() * allTags.length)]);
 }
 
-const writeUsers = fs.createWriteStream('data.csv');
+const writeUsers = fs.createWriteStream('hundredData.csv');
 
-writeUsers.write('proxyId|name|url|mainbody|sidebar|relatedContent\n', 'utf8');
+writeUsers.write('id|name|url|mainbody|sidebar|related\n', 'utf8');
 
 const generateTenMillion = (writer, encoding, callback) => {
-  let i = 10000000;
-  let id = 0;
+  let i = 100;
+  let counter = 0;
   const write = () => {
     let ok = true;
     do {
       i -= 1;
-      id += 1;
+      counter += 1;
       const xLanguages = {};
       for (let k = 0; k < languages.length; k += 1) {
         xLanguages[languages[k]] = [
@@ -129,7 +128,7 @@ const generateTenMillion = (writer, encoding, callback) => {
       }
 
       const xMContent = [];
-      for (let l = 0; l < Math.floor(Math.random() * 10); l += 1) {
+      for (let l = 0; l < Math.floor(Math.random() * 5); l += 1) {
         xMContent.push(mContent[Math.floor(Math.random() * mContent.length)]);
       }
 
@@ -139,20 +138,20 @@ const generateTenMillion = (writer, encoding, callback) => {
       }
 
       const xAchieves = [];
-      for (let n = 0; n < Math.floor(Math.random() * 10 + 5); n += 1) {
+      for (let n = 0; n < Math.floor(Math.random() * 4 + 5); n += 1) {
         xAchieves.push(achieves[Math.floor(Math.random() * achieves.length)]);
       }
 
       const xOs = [];
-      for (let o = 0; o < Math.floor(Math.random() * 10); o += 1) {
+      for (let o = 0; o < Math.floor(Math.random() * 4); o += 1) {
         xOs.push(gameOS[Math.floor(Math.random() * gameOS.length)]);
       }
 
-      const proxyId = id;
+      const id = counter;
       const name = faker.commerce.productName();
       const url = faker.internet.url();
       const mainbody = {
-        description: faker.lorem.paragraphs(),
+        description: faker.lorem.sentences(),
         images: [faker.image.image(), faker.image.image()],
         maturecontent: {
           description: [...new Set(xMContent)],
@@ -275,7 +274,7 @@ const generateTenMillion = (writer, encoding, callback) => {
       const sidebarStr = JSON.stringify(sidebar);
       const relatedStr = JSON.stringify(relatedContent);
 
-      const data = `${proxyId}|${name}|${url}|${mainbodyStr}|${sidebarStr}|{${relatedStr}}\n`;
+      const data = `${id}|${name}|${url}|${mainbodyStr}|${sidebarStr}|{${relatedStr}}\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {
