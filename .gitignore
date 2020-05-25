@@ -3,3 +3,6 @@ node_modules
 webpack.config
 coverage/
 node_modules
+database/data.csv
+database/mongo
+
