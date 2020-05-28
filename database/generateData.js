@@ -106,12 +106,12 @@ for (let p = 0; p < Math.floor(Math.random() * 8); p += 1) {
   xTags.push(allTags[Math.floor(Math.random() * allTags.length)]);
 }
 
-const writeUsers = fs.createWriteStream('hundredData.csv');
+const writeUsers = fs.createWriteStream('tenData.csv');
 
 writeUsers.write('id|name|url|mainbody|sidebar|related\n', 'utf8');
 
 const generateTenMillion = (writer, encoding, callback) => {
-  let i = 100;
+  let i = 10;
   let counter = 0;
   const write = () => {
     let ok = true;

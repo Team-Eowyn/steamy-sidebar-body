@@ -13,4 +13,4 @@ client.connect((err, result) => {
   }
 });
 
-const query = 'INSERT INTO games ('
+module.exports = client;
