@@ -111,7 +111,7 @@ const writeUsers = fs.createWriteStream('tenData.csv');
 writeUsers.write('id|name|url|mainbody|sidebar|related\n', 'utf8');
 
 const generateTenMillion = (writer, encoding, callback) => {
-  let i = 10;
+  let i = 10000000;
   let counter = 0;
   const write = () => {
     let ok = true;

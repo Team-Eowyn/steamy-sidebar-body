@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const pgModels = require('../database/postgreSQL/models.js');
-const mModels = require('../database/mongo/models.js');
+const controllers = require('../database/postgreSQL/controllers.js');
 
 const app = express();
 
@@ -12,53 +11,12 @@ app.get('/mainbody', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/mainbody/:id', (req, res) => {
-  const { params } = req;
-  // res.status(200).send(params.proxyId);
-  // console.log('query is : ', query);
-  pgModels.getOneById(params.id, (err, data) => {
-    if (err) {
-      // console.log('error: ', err);
-      res.status(404).send('something went wrong');
-    } else {
-      // console.log('returned data: ', data);
-      res.status(200).json(data);
-    }
-  });
-});
+app.get('/mainbody/:id', controllers.getOneById);
 
-app.post('/mainbody', (req, res) => {
-  const newData = req.body;
-  mModels.addOne(newData, (err, data) => {
-    if (err) {
-      res.status(500).send('something went wrong');
-    } else {
-      res.status(201).send(`new game added: ${data}`);
-    }
-  });
-});
+app.post('/mainbody', controllers.addOne);
 
-app.delete('/mainbody/:proxyId', (req, res) => {
-  const { params } = req;
-  mModels.deleteOne(params.proxyId, (err, results) => {
-    if (err) {
-      res.status(500).json({ error: 'something went wrong' });
-    } else {
-      res.status(200).send(`game at proxyId ${results} deleted from database`);
-    }
-  });
-});
+app.delete('/mainbody/:id', controllers.deleteOne);
 
-app.put('/mainbody/:proxyId', (req, res) => {
-  const { params } = req;
-  const { name } = req.body;
-  mModels.updateOne(params.proxyId, name, (err) => {
-    if (err) {
-      res.status(500).send('something went wrong');
-    } else {
-      res.status(200).send('item updated');
-    }
-  });
-});
+app.put('/mainbody/:id', controllers.updateOne);
 
 module.exports = app;
