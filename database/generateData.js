@@ -106,7 +106,7 @@ for (let p = 0; p < Math.floor(Math.random() * 8); p += 1) {
   xTags.push(allTags[Math.floor(Math.random() * allTags.length)]);
 }
 
-const writeUsers = fs.createWriteStream('tenData.csv');
+const writeUsers = fs.createWriteStream('data.csv');
 
 writeUsers.write('id|name|url|mainbody|sidebar|related\n', 'utf8');
 
@@ -150,20 +150,22 @@ const generateTenMillion = (writer, encoding, callback) => {
       const id = counter;
       const name = faker.commerce.productName();
       const url = faker.internet.url();
-      const mainbody = {
+      const mainbody = JSON.stringify({
         description: faker.lorem.sentences(),
         images: [faker.image.image(), faker.image.image()],
-        maturecontent: {
-          description: [...new Set(xMContent)],
-        },
+        maturecontent: [
+          {
+            description: [...new Set(xMContent)],
+          },
+        ],
         sysrequirement: {
           os: [...new Set(xOs)],
           processor: proc[Math.floor(Math.random() * proc.length)],
           memory: mem[Math.floor(Math.random() * mem.length)],
           graphics: gphx[Math.floor(Math.random() * gphx.length)],
         },
-      };
-      const sidebar = {
+      });
+      const sidebar = JSON.stringify({
         description: {
           player: [faker.lorem.word(), faker.image.image()],
           achievements: [faker.lorem.word(), faker.image.image()],
@@ -202,8 +204,8 @@ const generateTenMillion = (writer, encoding, callback) => {
           franchise: faker.company.companyName(),
           releasedate: faker.date.past(),
         },
-      };
-      const relatedContent = [
+      });
+      const related = JSON.stringify([
         {
           name: faker.commerce.productName(),
           thumbnail: faker.image.image(),
@@ -269,12 +271,10 @@ const generateTenMillion = (writer, encoding, callback) => {
             tag: [...new Set(xTags)],
           },
         },
-      ];
-      const mainbodyStr = JSON.stringify(mainbody);
-      const sidebarStr = JSON.stringify(sidebar);
-      const relatedStr = JSON.stringify(relatedContent);
+      ]);
 
-      const data = `${id}|${name}|${url}|${mainbodyStr}|${sidebarStr}|{${relatedStr}}\n`;
+      const data = `${id}|${name}|${url}|${mainbody}|${sidebar}|${related}\n`;
+
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {

@@ -2,7 +2,7 @@ const db = require('./config');
 
 exports.getOneById = (request, response) => {
   const { params } = request;
-  const getIdQuery = `SELECT * FROM games WHERE id = ${params.id};`;
+  const getIdQuery = `SELECT * FROM games WHERE id = ${params.id}`;
   db.query(getIdQuery, (err, res) => {
     if (err) {
       response.status(400).send('something went wrong');
@@ -11,10 +11,10 @@ exports.getOneById = (request, response) => {
       returnObj.id = res.rows[0].id;
       returnObj.name = res.rows[0].name;
       returnObj.url = res.rows[0].url;
-      returnObj.mainbody = (res.rows[0].mainbody);
-      returnObj.sidebar = (res.rows[0].sidebar);
-      returnObj.relatedContent = (res.rows[0].related);
-      response.status(200).json(returnObj);
+      returnObj.mainbody = JSON.parse(res.rows[0].mainbody);
+      returnObj.sidebar = JSON.parse(res.rows[0].sidebar);
+      returnObj.relatedContent = JSON.parse(res.rows[0].related);
+      response.status(200).send([returnObj]);
     }
   });
 };
