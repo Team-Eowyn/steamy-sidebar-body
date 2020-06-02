@@ -6,7 +6,9 @@ import Sidebar from "./components/Sidebar.jsx";
 
 import { GlobalStyle } from "./StyledComponents.jsx";
 
-const proxyId = window.location.search.substring(2);
+const ID = window.location.search.substring(2);
+// const url = new URL(window.location.href);
+// const ID = url.searchParams.get('id');
 
 class App extends React.Component {
   constructor() {
@@ -18,7 +20,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (!proxyId) {
+    if (!ID) {
       axios.get('/mainbody')
         .then(response => {
           console.log('serving up static file');
@@ -30,8 +32,9 @@ class App extends React.Component {
 
         });
     } else {
-      axios.get(`/mainbody/${proxyId}`)
+      axios.get(`/mainbody/${ID}`)
         .then((res) => {
+          console.log(res.data[0]);
           // console.log("before setState: ", this.state);
           this.setState({
             game: res.data[0],
