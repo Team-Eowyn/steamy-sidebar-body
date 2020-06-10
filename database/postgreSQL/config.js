@@ -1,7 +1,7 @@
 const { Client } = require('pg');
 
 const client = new Client({
-  host: '172.31.35.195',
+  host: 'localhost',
   database: 'steamy',
   port: 5432,
 });
